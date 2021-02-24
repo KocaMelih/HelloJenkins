@@ -13,9 +13,13 @@ pipeline {
             post{
                 success{
                     echo 'Now Archiving ....'
-
                     archiveArtifacts artifacts : '**/HelloJenkins-jar-with-dependencies.jar'
                 }
+            }
+        }
+        stage('Create Hello Jenkins Docker Image'){
+            steps{
+                sh "docker build . -t hellojenkins:${env.BUILD_ID}"
             }
         }
     }
