@@ -26,6 +26,7 @@ pipeline {
         stage('Remove old Docker images'){
             steps{
                 sh "docker image prune -f -a --filter \"until=1h\""
+                //sh "docker image prune -f -a --filter \"until=\$(date +'%Y-%m-%dT%H:%M:%S' --date='-15 days')\""
             }
         }
         stage('Create Hello Jenkins Docker Image'){
@@ -36,6 +37,12 @@ pipeline {
         stage('Run Hello Jenkins'){
             steps{
                 sh "docker run ${env.IMAGE_NAME}:${env.BUILD_ID}"
+            }
+            post{
+                success{
+                    echo 'Registering the image to the registry ....'
+                    //archiveArtifacts artifacts : "${env.JAR_NAME}"
+                }
             }
         }
     }
