@@ -14,7 +14,7 @@ pipeline {
                 success{
                     echo 'Now Archiving ....'
 
-                    archiveArtifacts artifacts : '**/*.jar'
+                    archiveArtifacts artifacts : '**/HelloJenkins-jar-with-dependencies.jar'
                 }
             }
         }
