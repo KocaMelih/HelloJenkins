@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Remove old Docker images'){
             steps{
-                sh "docker rmi \$(docker images -q --filter \"before=${env.IMAGE_NAME}:${x}\" ${env.IMAGE_NAME})""
+                sh "docker rmi \$(docker images -q --filter \"before=${env.IMAGE_NAME}:${x}\" ${env.IMAGE_NAME})"
             }
         }
         stage('Create Hello Jenkins Docker Image'){
