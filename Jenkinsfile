@@ -22,7 +22,7 @@ pipeline {
                 sh "docker build . -t hellojenkins:${env.BUILD_ID}"
             }
         }
-        stage('Create Hello Jenkins Docker Image'){
+        stage('Run Hello Jenkins'){
             steps{
                 sh "docker run hellojenkins:${env.BUILD_ID}"
             }
