@@ -38,7 +38,7 @@ pipeline {
 
                     def doc_containers = sh(returnStdout: true, script: "docker container ps -aq -f \"\"name=${env.IMAGE_NAME}\"\"").replaceAll("\n", " ")
                     if (doc_containers) {
-                        sh "docker stop ${doc_containers}"
+                        sh "docker rm ${doc_containers}"
                     }
 
                 }
