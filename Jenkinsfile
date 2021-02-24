@@ -1,4 +1,4 @@
-def x = env.BUILD_ID - 2
+def x = (env.BUILD_ID as Integer) - 2
 
 pipeline {
     agent any
@@ -25,7 +25,8 @@ pipeline {
         }
         stage('Remove old Docker images'){
             steps{
-                sh "docker rmi \$(docker images -q --filter \"before=${env.IMAGE_NAME}:${x}\" ${env.IMAGE_NAME})"
+                sh "docker image prune -a --filter \"until=\$(date +'%Y-%m-%dT%H:%M:%S' --date='-15 days')\""
+                //sh "docker rmi \$(docker images -q --filter \"before=${env.IMAGE_NAME}:${x}\" ${env.IMAGE_NAME})"
             }
         }
         stage('Create Hello Jenkins Docker Image'){
