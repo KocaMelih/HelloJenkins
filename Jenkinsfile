@@ -1,5 +1,3 @@
-def x = (env.BUILD_ID as Integer) - 2
-
 pipeline {
     agent any
     environment {
@@ -34,14 +32,29 @@ pipeline {
                 sh "docker build . -t ${env.IMAGE_NAME}:${env.BUILD_ID}"
             }
         }
+        stage('Clearing previous containers'){
+            steps{
+                script{
+
+                    def doc_containers = sh(returnStdout: true, script: 'docker container ps -aq -f "name=${env.IMAGE_NAME}"').replaceAll("\n", " ")
+                    if (doc_containers) {
+                        sh "docker stop ${doc_containers}"
+                    }
+
+                }
+            }
+        }
         stage('Run Hello Jenkins'){
             steps{
-                sh "docker run ${env.IMAGE_NAME}:${env.BUILD_ID}"
+                sh "docker run --name \"${env.IMAGE_NAME}\" ${env.IMAGE_NAME}:${env.BUILD_ID}"
             }
             post{
                 success{
-                    echo 'Registering the image to the registry ....'
+                    echo 'Deployment on staging environment succeeded!'
                     //archiveArtifacts artifacts : "${env.JAR_NAME}"
+                }
+                failure{
+                    echo 'Deployment on staging environment failed!'
                 }
             }
         }
