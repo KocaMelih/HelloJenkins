@@ -19,23 +19,23 @@ pipeline {
             post{
                 success{
                     echo 'Now Archiving ....'
-                    archiveArtifacts artifacts : '${JAR_NAME}'
+                    archiveArtifacts artifacts : "${env.JAR_NAME}"
                 }
             }
         }
         stage('Remove old Docker images'){
             steps{
-                sh 'docker rmi @\$(docker images -q --filter \"before=${IMAGE_NAME}:${x}\" ${IMAGE_NAME})'
+                sh 'docker rmi @\$(docker images -q --filter \"before=${env.IMAGE_NAME}:${x}\" ${env.IMAGE_NAME})'
             }
         }
         stage('Create Hello Jenkins Docker Image'){
             steps{
-                sh "docker build . -t ${IMAGE_NAME}:${env.BUILD_ID}"
+                sh "docker build . -t ${env.IMAGE_NAME}:${env.BUILD_ID}"
             }
         }
         stage('Run Hello Jenkins'){
             steps{
-                sh "docker run ${IMAGE_NAME}:${env.BUILD_ID}"
+                sh "docker run ${env.IMAGE_NAME}:${env.BUILD_ID}"
             }
         }
     }
