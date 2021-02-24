@@ -25,7 +25,7 @@ pipeline {
         }
         stage('Remove old Docker images'){
             steps{
-                sh "docker image prune -f -a --filter \"until=1h)\""
+                sh "docker image prune -f -a --filter \"until=1h\""
             }
         }
         stage('Create Hello Jenkins Docker Image'){
