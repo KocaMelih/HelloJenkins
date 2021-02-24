@@ -17,6 +17,12 @@ pipeline {
                 }
             }
         }
+        stage('Remove old Docker images'){
+            steps{
+                def x = env.BUILD_ID - 2;
+                sh "docker rmi $(docker images -q --filter "before=hellojenkins:${x}" hellojenkins)"
+            }
+        }
         stage('Create Hello Jenkins Docker Image'){
             steps{
                 sh "docker build . -t hellojenkins:${env.BUILD_ID}"
