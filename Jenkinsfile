@@ -24,7 +24,7 @@ pipeline {
         stage('Remove old Docker images'){
             steps{
                 //sh "docker image prune -f -a --filter \"until=1h\" --filter \"label=${env.IMAGE_NAME}\""
-                sh "docker image prune -f -a --filter "\"\"label=${env.IMAGE_NAME}\"\""
+                sh "docker image prune -f -a --filter \"\"label=${env.IMAGE_NAME}\"\""
                 //sh "docker image prune -f -a --filter \"until=\$(date +'%Y-%m-%dT%H:%M:%S' --date='-15 days')\""
             }
         }
